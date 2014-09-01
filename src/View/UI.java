@@ -1,11 +1,13 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.JButton;
@@ -16,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -26,7 +27,7 @@ import Model.Item;
 public class UI extends JFrame{
 	
 	private RSSReader rssReader;
-	private JTextField textField;
+	private JTextField inputField;
 	private JPanel panel;
 	private JPanel topPanel;
 	private JPanel innerTopPanelUp;
@@ -42,20 +43,20 @@ public class UI extends JFrame{
 	private JScrollPane itemListPane;
 	private JScrollPane informationPane;
 	
-	public UI(RSSReader rssReader){
+	public UI(RSSReader rss){
 		
-		this.rssReader = rssReader;
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		this.rssReader = rss;
 		
 		panel = new JPanel( new BorderLayout() );
 		
 		innerTopPanelUp = new JPanel();
 		innerTopPanelUp.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
+		//default url
 		urlStr = new JLabel("<html>Current URL : " + colorText("http://feeds.bbci.co.uk/news/rss.xml") + "</html>");
 		urlStr.setHorizontalAlignment(JLabel.CENTER);
 		
-		titleStr = new JLabel("Title :");
+		titleStr = new JLabel("Title : None");
 		titleStr.setHorizontalAlignment(JLabel.CENTER);
 		
 		topPanel = new JPanel();
@@ -66,12 +67,34 @@ public class UI extends JFrame{
 		innerTopPanelDown.add(urlStr);
 		innerTopPanelDown.add(titleStr);
 		
-		textField = new JTextField();
+		inputField = new JTextField();
 		
-		innerTopPanelUp.add(textField);
-		textField.setColumns(20);
+		innerTopPanelUp.add(inputField);
+		
+		inputField.setColumns(30);
+		inputField.setFont( new Font("Tahoma", Font.PLAIN, 18));
 		
 		btnRead = new JButton("READ");
+		btnRead.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				URL url = null;
+				try {
+					url = new URL(inputField.getText());
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				System.out.println(url);
+				rssReader.setUrl(url);
+				rssReader.readRSS();
+				
+				itemList.setListData( rssReader.getArrayItem() );
+				information.setText("");
+				titleStr.setText("Title : None");
+				urlStr.setText("<html>Current URL : " + colorText(url.toString()) + "</html>");
+			}
+		});
 		innerTopPanelUp.add(btnRead);
 		
 		centerPanel = new JPanel();
