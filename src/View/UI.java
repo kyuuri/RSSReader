@@ -1,8 +1,12 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -24,9 +29,18 @@ public class UI extends JFrame{
 	private JTextField textField;
 	private JPanel panel;
 	private JPanel topPanel;
+	private JPanel innerTopPanelUp;
+	private JPanel innerTopPanelDown;
 	private JButton btnRead;
 	private JPanel centerPanel;
+	
+	private JLabel urlStr;
+	private JLabel titleStr;
+	
 	private JTextArea information;
+	final private JList itemList;
+	private JScrollPane itemListPane;
+	private JScrollPane informationPane;
 	
 	public UI(RSSReader rssReader){
 		
@@ -35,44 +49,67 @@ public class UI extends JFrame{
 		
 		panel = new JPanel( new BorderLayout() );
 		
+		innerTopPanelUp = new JPanel();
+		innerTopPanelUp.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		urlStr = new JLabel("<html>Current URL : " + colorText("http://feeds.bbci.co.uk/news/rss.xml") + "</html>");
+		urlStr.setHorizontalAlignment(JLabel.CENTER);
+		
+		titleStr = new JLabel("Title :");
+		titleStr.setHorizontalAlignment(JLabel.CENTER);
+		
 		topPanel = new JPanel();
-		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		topPanel.setLayout(new BorderLayout(0, 0));
+		
+		innerTopPanelDown = new JPanel();
+		innerTopPanelDown.setLayout(new GridLayout(1,2));
+		innerTopPanelDown.add(urlStr);
+		innerTopPanelDown.add(titleStr);
 		
 		textField = new JTextField();
 		
-		topPanel.add(textField);
-		textField.setColumns(10);
+		innerTopPanelUp.add(textField);
+		textField.setColumns(20);
 		
 		btnRead = new JButton("READ");
-		topPanel.add(btnRead);
+		innerTopPanelUp.add(btnRead);
 		
 		centerPanel = new JPanel();
 		
-		final JList jList = new JList( rssReader.getArrayItem() );
-		JScrollPane jscroll = new JScrollPane(jList);
+		itemList = new JList( rssReader.getArrayItem() );
+		itemListPane = new JScrollPane(itemList);
 		
 		information = new JTextArea();
-		JScrollPane jdata = new JScrollPane(information);
+		setInformationArea();
 		
-		jdata.setPreferredSize( new Dimension(300,300));
-		jList.addListSelectionListener(new ListSelectionListener() {			
+		informationPane = new JScrollPane(information);
+		
+		itemListPane.setPreferredSize( new Dimension(400,300) );
+		informationPane.setPreferredSize( new Dimension(400,300) );
+		
+		itemList.addListSelectionListener(new ListSelectionListener() {			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				
 				if(e.getValueIsAdjusting()){
-					Item item = (Item)(jList.getSelectedValue());
+					Item item = (Item)(itemList.getSelectedValue());
 					information.setText(item.getDesc());
 					information.setLineWrap(true);
-					//System.out.println(item.getDesc());
+					
+					titleStr.setText("<html>Title : " + colorText(item.getTitle()) + "</html>");
 				}
 				
 			}
 		});
+		
+		topPanel.add(innerTopPanelUp,BorderLayout.NORTH);
+		topPanel.add(innerTopPanelDown,BorderLayout.SOUTH);
 
-		centerPanel.add(jscroll,BorderLayout.WEST);
-		centerPanel.add(jdata, BorderLayout.EAST);
+		centerPanel.add(itemListPane,BorderLayout.WEST);
+		centerPanel.add(informationPane, BorderLayout.EAST);
 		
 		panel.add(topPanel, BorderLayout.NORTH);
+		//panel.add()
 		panel.add(centerPanel, BorderLayout.CENTER);
 		this.getContentPane().add(panel);
 
@@ -83,6 +120,16 @@ public class UI extends JFrame{
 		this.pack();
 		this.setVisible(true);
 		System.out.println("Runn");
+	}
+	
+	public void setInformationArea(){
+		information.setEditable(false);
+		information.setWrapStyleWord(true);
+		information.setFont( new Font("Tahoma",Font.PLAIN,16));
+	}
+	
+	public String colorText(String text){
+		return "<font color=\"blue\">" + text + "</font>";
 	}
 	
 	
