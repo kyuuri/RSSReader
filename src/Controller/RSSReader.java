@@ -60,7 +60,7 @@ public class RSSReader {
 	 * @return array of items in the RSS.
 	 */
 	public Item[] getArrayItem(){
-		List<Item> items = this.readRSS().getChannel().getItems();
+		List<Item> items = this.getRSS().getChannel().getItems();
 		Item[] itemArray = new Item[items.size()];
 		
 		items.toArray(itemArray);
@@ -68,7 +68,7 @@ public class RSSReader {
 	}
 	
 	/**
-	 * Get RSS.
+	 * Get RSS. If rss is null, the readRSS will be called.
 	 * @return current RSS.
 	 */
 	public RSS getRSS(){
