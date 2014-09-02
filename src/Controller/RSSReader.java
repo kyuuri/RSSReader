@@ -33,6 +33,8 @@ public class RSSReader {
 		try {
 			context = JAXBContext.newInstance(RSS.class);
 			Unmarshaller um = context.createUnmarshaller();
+			
+			//Handle null if it is called. This should not happen.
 			if(url == null){
 				url = new URL("http://feeds.bbci.co.uk/news/rss.xml");
 			}
