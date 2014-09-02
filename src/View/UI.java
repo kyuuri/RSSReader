@@ -12,6 +12,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -96,26 +98,28 @@ public class UI extends JFrame{
 		
 		inputField.setColumns(30);
 		inputField.setFont( new Font("Tahoma", Font.PLAIN, 18));
+		inputField.addKeyListener( new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
+					readURL();
+				}
+			}
+		});
 		
 		btnRead = new JButton("READ");
 		btnRead.addActionListener( new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				URL url = null;
-				try {
-					url = new URL(inputField.getText());
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
-				System.out.println(url);
-				rssReader.setUrl(url);
-				rssReader.readRSS();
-				
-				itemList.setListData( rssReader.getArrayItem() );
-				information.setText("");
-				titleStr.setText("Title : None");
-				urlStr.setText("<html>Current URL : " + colorText(url.toString(), "red") + "</html>");
+				readURL();
 			}
 		});
 		innerTopPanelUp.add(btnRead);
@@ -221,6 +225,22 @@ public class UI extends JFrame{
 	
 	public String colorText(String text , String color){
 		return "<font color=\"" + color + "\">" + text + "</font>";
+	}
+	
+	public void readURL(){
+		URL url = null;
+		try {
+			url = new URL(inputField.getText());
+		rssReader.setUrl(url);
+		rssReader.readRSS();
+		
+		itemList.setListData( rssReader.getArrayItem() );
+		information.setText("");
+		titleStr.setText("Title : None");
+		urlStr.setText("<html>Current URL : " + colorText(url.toString(), "red") + "</html>");
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

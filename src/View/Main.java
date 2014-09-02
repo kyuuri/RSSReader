@@ -1,5 +1,5 @@
+package View;
 import Controller.RSSReader;
-import View.UI;
 
 
 public class Main {
