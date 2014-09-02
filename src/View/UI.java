@@ -58,8 +58,9 @@ public class UI extends JFrame{
 	private JLabel linkText;
 	private String link = "";
 	
+	private JLabel titleChannelStr;
 	private JLabel urlStr;
-	private JLabel titleStr;
+	private JLabel titleItemStr;
 	
 	private JTextArea information;
 	private JList itemList;
@@ -94,17 +95,22 @@ public class UI extends JFrame{
 		urlStr.setFont( new Font("Tahoma", Font.PLAIN, 16));
 		urlStr.setHorizontalAlignment(JLabel.CENTER);
 		
-		titleStr = new JLabel("Title : None");
-		titleStr.setFont( new Font("Tahoma", Font.PLAIN, 16) );
-		titleStr.setHorizontalAlignment(JLabel.CENTER);
+		titleItemStr = new JLabel("Title : None");
+		titleItemStr.setFont( new Font("Tahoma", Font.PLAIN, 16) );
+		titleItemStr.setHorizontalAlignment(JLabel.CENTER);
+		
+		titleChannelStr = new JLabel("  " + rssReader.getRSS().getChannel().getTitle());
+		titleChannelStr.setFont( new Font(null, Font.BOLD, 30) );
 		
 		topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout(0, 0));
 		
 		innerTopPanelDown = new JPanel();
-		innerTopPanelDown.setLayout(new GridLayout(1,2));
+		innerTopPanelDown.setLayout(new GridLayout(2,2));
+		innerTopPanelDown.add(titleChannelStr);
+		innerTopPanelDown.add( new JLabel() );
 		innerTopPanelDown.add(urlStr);
-		innerTopPanelDown.add(titleStr);
+		innerTopPanelDown.add(titleItemStr);
 		
 		inputField = new JTextField();
 		
@@ -163,7 +169,7 @@ public class UI extends JFrame{
 					Item item = (Item)(itemList.getSelectedValue());
 					information.setText(item.getDesc());
 					
-					titleStr.setText("<html>Title : " + colorText(item.getTitle(), "blue") + "</html>");
+					titleItemStr.setText("<html>Title : " + colorText(item.getTitle(), "blue") + "</html>");
 					link = item.getLink();
 				}
 				
@@ -261,7 +267,8 @@ public class UI extends JFrame{
 		
 		itemList.setListData( rssReader.getArrayItem() );
 		information.setText("");
-		titleStr.setText("Title : None");
+		titleItemStr.setText("Title : None");
+		titleChannelStr.setText("  " + rssReader.getRSS().getChannel().getTitle());
 		urlStr.setText("<html>Current URL : " + colorText(url.toString(), "red") + "</html>");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

@@ -17,14 +17,15 @@ import Model.Item;
 import Model.RSS;
 public class RSSReader {
 	
-	/** url attribute */
+	/** attributes */
 	private URL url;
+	private RSS rss;
 
 	/**constructor of the class*/
 	public RSSReader(){}
 	
 	/**
-	 * Unmarshall or read the RSS from the current url;
+	 * Unmarshal or read the RSS from the current url;
 	 * @return RSS from the current url.
 	 */
 	public RSS readRSS(){
@@ -36,7 +37,7 @@ public class RSSReader {
 				url = new URL("http://feeds.bbci.co.uk/news/rss.xml");
 			}
 			Object obj = um.unmarshal( url );
-			RSS rss = (RSS)obj;
+			rss = (RSS)obj;
 			
 			return rss;
 			
@@ -64,5 +65,15 @@ public class RSSReader {
 		
 		items.toArray(itemArray);
 		return itemArray;
+	}
+	
+	/**
+	 * Get RSS.
+	 * @return current RSS.
+	 */
+	public RSS getRSS(){
+		if(rss == null)
+			this.readRSS();
+		return rss;
 	}
 }
