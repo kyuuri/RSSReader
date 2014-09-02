@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -193,11 +194,14 @@ public class UI extends JFrame{
 			}
 			
 			@Override
-			public void mouseExited(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {
+				linkText.setForeground(Color.BLACK);
+			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				linkText.setCursor( new Cursor(Cursor.HAND_CURSOR) );
+				linkText.setForeground(Color.BLUE);
 			}
 			
 			@Override
