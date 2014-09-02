@@ -1,15 +1,12 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -30,15 +27,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import Controller.RSSReader;
 import Model.Item;
-
+/**
+ * Class for the user interface. User can input url and enter or choose 
+ * 
+ * @author Sarathit Sangtaweep 5510546182
+ */
 public class UI extends JFrame{
 	
+	/**attributes*/
+	
+	/**rss reader*/
 	private RSSReader rssReader;
 	private JPanel panel;
 	private JPanel topPanel;
@@ -58,14 +61,24 @@ public class UI extends JFrame{
 	private JLabel titleStr;
 	
 	private JTextArea information;
-	final private JList itemList;
+	private JList itemList;
 	private JScrollPane itemListPane;
 	private JScrollPane informationPane;
 	
+	/**
+	 * Constructor of the class
+	 * 
+	 * @param rss RSSReader for reading rss.
+	 */
 	public UI(RSSReader rss){
-		
 		this.rssReader = rss;
-		
+		initComponent();
+	}
+	
+	/**
+	 * Initialize the components of the user interface.
+	 */
+	private void initComponent() {
 		panel = new JPanel( new BorderLayout() );
 		
 		innerTopPanelUp = new JPanel();
@@ -131,7 +144,10 @@ public class UI extends JFrame{
 		itemListPane = new JScrollPane(itemList);
 		
 		information = new JTextArea();
-		setInformationArea();
+		information.setEditable(false);
+		information.setLineWrap(true);
+		information.setWrapStyleWord(true);
+		information.setFont( new Font("Tahoma",Font.PLAIN,16));
 		
 		informationPane = new JScrollPane(information);
 		
@@ -205,28 +221,33 @@ public class UI extends JFrame{
 		panel.add(bottomPanel, BorderLayout.SOUTH);
 
 		this.getContentPane().add(panel);
-
+		
 	}
-	
+
+	/**
+	 * Run the user interface.
+	 */
 	public void run(){
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 		this.setResizable(false);
-		System.out.println("Runn");
 	}
 	
-	public void setInformationArea(){
-		information.setEditable(false);
-		information.setLineWrap(true);
-		information.setWrapStyleWord(true);
-		information.setFont( new Font("Tahoma",Font.PLAIN,16));
-	}
-	
+	/**
+	 * Paint the text with the input color.
+	 * 
+	 * @param text text to be colored.
+	 * @param color color of the text.
+	 * @return the string which is in html form for colored text.
+	 */
 	public String colorText(String text , String color){
 		return "<font color=\"" + color + "\">" + text + "</font>";
 	}
 	
+	/**
+	 * Use RSSReader to read the URL and update the user interface.
+	 */
 	public void readURL(){
 		URL url = null;
 		try {
