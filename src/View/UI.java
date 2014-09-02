@@ -200,7 +200,7 @@ public class UI extends JFrame {
 				if(link.equals("")){
 					JOptionPane.showMessageDialog(null,"Currently no more detail","Error",JOptionPane.ERROR_MESSAGE);
 				}
-				if (Desktop.isDesktopSupported() && !link.equals("")) {
+				else if (Desktop.isDesktopSupported()) {
 					Desktop desktop = Desktop.getDesktop();
 					try {
 						desktop.browse(new URI(link));
