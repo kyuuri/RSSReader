@@ -123,7 +123,7 @@ public class UI extends JFrame{
 		centerPanel = new JPanel();
 		
 		itemList = new JList( rssReader.getArrayItem() );
-		itemList.setFont( new Font("Arial", Font.BOLD, 14) );
+		itemList.setFont( new Font(null, Font.BOLD, 14) );
 		itemListPane = new JScrollPane(itemList);
 		
 		information = new JTextArea();
@@ -150,6 +150,7 @@ public class UI extends JFrame{
 		});
 		
 		linkText = new JLabel("More detail...");
+		linkText.setFont( new Font(null, Font.BOLD, 16));
 		linkText.setHorizontalAlignment(JLabel.CENTER);
 		linkText.addMouseListener( new MouseListener() {
 			
@@ -186,6 +187,8 @@ public class UI extends JFrame{
 		bottomPanel = new JPanel( new GridLayout(2,2));
 		bottomPanel.add( new JLabel() );
 		bottomPanel.add(linkText);
+		bottomPanel.add( new JLabel() );
+		bottomPanel.add( new JLabel() );
 		
 		topPanel.add(innerTopPanelUp,BorderLayout.NORTH);
 		topPanel.add(innerTopPanelDown,BorderLayout.SOUTH);
