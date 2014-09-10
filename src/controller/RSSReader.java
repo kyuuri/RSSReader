@@ -1,7 +1,8 @@
-package Controller;
+package controller;
 
 /**
- * RSSReader class, use for reading rss from url.
+ * RSSReader class, use for reading rss feed from the input url by
+ * using JAXB for unmarshaling the rss. 
  * 
  * @author Sarathit Sangtaweep 5510546182
  */
@@ -13,8 +14,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import Model.Item;
-import Model.RSS;
+import model.Item;
+import model.RSS;
+
 public class RSSReader {
 	
 	/** attributes */

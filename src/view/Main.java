@@ -1,5 +1,5 @@
-package View;
-import Controller.RSSReader;
+package view;
+import controller.RSSReader;
 
 /**
  * Main class for running and creating GUI and RSSReader.
@@ -15,7 +15,7 @@ public class Main {
 	 */
 	public static void main(String[] args){
 		RSSReader rssR = new RSSReader();
-		UI ui = new UI(rssR);
+		RSSReaderView ui = new RSSReaderView(rssR);
 		ui.run();
 	}
 }

@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,15 +32,17 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import Controller.RSSReader;
-import Model.Item;
+import model.Item;
+
+import controller.RSSReader;
+
 
 /**
- * Class for the user interface. User can input url and enter or choose
+ * Class for the user interface. User can input url and press enter or choose
  * 
  * @author Sarathit Sangtaweep 5510546182
  */
-public class UI extends JFrame {
+public class RSSReaderView extends JFrame {
 
 	/** attributes */
 
@@ -75,7 +77,7 @@ public class UI extends JFrame {
 	 * @param rss
 	 *            RSSReader for reading rss.
 	 */
-	public UI(RSSReader rss) {
+	public RSSReaderView(RSSReader rss) {
 		this.rssReader = rss;
 		initComponent();
 	}
